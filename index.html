@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -174,13 +175,14 @@
             background-color: #fff;
             color: #555;
         }
+        /* تعديل جديد: لتوسيط الأرقام في جميع حقول الإدخال داخل الجداول */
         .evaluation-table input[type="number"],
         .evaluation-table input[type="text"] {
             width: 80px;
             padding: 8px;
             border: 1px solid #ccc;
             border-radius: 4px;
-            text-align: center;
+            text-align: center; /* التعديل هنا: توسيط النص */
             font-size: 1em;
             box-sizing: border-box;
         }
@@ -214,6 +216,7 @@
         #tab3 .evaluation-table input[type="number"],
         #tab3 .evaluation-table input[type="text"] {
             width: 90%;
+            text-align: center; /* ضمان توسيط الأرقام هنا أيضًا */
         }
         /* تعديل خاص لتبويب 3 لجعل النسبة المئوية على اليسار */
         #tab3 .evaluation-table .achieved-percent-cell { /* Changed to achieved-percent-cell */
@@ -221,8 +224,9 @@
         }
         #tab3 .evaluation-table .achieved-percent-cell input {
             width: calc(100% - 25px); /* مسافة للعلامة */
-            text-align: right; /* لجعل الأرقام تبدأ من اليمين */
+            text-align: center; /* جعل الأرقام تبدأ من اليمين */
             padding-right: 5px;
+            padding-left: 25px; /* مسافة لعلامة % */
         }
         #tab3 .evaluation-table .achieved-percent-cell::after {
             content: '%';
@@ -237,6 +241,7 @@
         #underTrialTab .evaluation-table input[type="number"],
         #underTrialTab .evaluation-table input[type="text"] {
             width: 90%;
+            text-align: center; /* ضمان توسيط الأرقام هنا أيضًا */
         }
         .evaluation-table .competency-name {
             text-align: right;
@@ -461,7 +466,6 @@
 <body>
     <div class="container">
         <img src="logo.png" alt="شعار مديرية صحة مادبا" style="display: block; margin: 0 auto 20px auto; max-width: 150px; height: auto;">
-
         <h3 class="header-title-main">المملكة الأردنية الهاشمية</h3>
         <h4 class="header-title-sub">مديرية صحة محافظة مادبا</h4>
         <h1 class="header-title-page">نظام تقييم أداء الموظفين</h1>
@@ -475,6 +479,7 @@
                 <option value="underTrial">نموذج الموظف تحت التجربة</option>
             </select>
         </div>
+
         <div id="evaluationForms" class="tabs-container">
             <div id="standardTabsContainer" class="tabs">
                 <button class="tab-button active" onclick="openTab(event, 'tab3')">مجموع العلامة المستحقة للنتائج</button>
@@ -482,6 +487,7 @@
                 <button class="tab-button" onclick="openTab(event, 'tab2')">مجموع النسبة المستحقة لعناصر التميز الوظيفي</button>
                 <button class="tab-button" onclick="openTab(event, 'tab4')">تقييم الأداء</button>
             </div>
+
             <div id="tab3" class="tab-content">
                 <h3>مجموع العلامة المستحقة للنتائج المطلوب من الموظف تحقيقها</h3>
                 <p>الرجاء إدخال البيانات التالية:</p>
@@ -503,10 +509,11 @@
                         </tr>
                     </thead>
                     <tbody id="tab3-tbody">
-                    </tbody>
+                        </tbody>
                 </table>
                 <div id="tab3-error-message" class="error-message" style="display: none;"></div>
             </div>
+
             <div id="tab1" class="tab-content">
                 <h3>التقييم النهائي للكفايات</h3>
                 <p>الرجاء إدخال البيانات الخاصة بالتقييم:</p>
@@ -609,6 +616,7 @@
                 </table>
                 <div id="tab1-error-message" class="error-message" style="display: none;"></div>
             </div>
+
             <div id="tab2" class="tab-content">
                 <h3>مجموع النسبة المستحقة لعناصر التميز الوظيفي (8)</h3>
                 <p>الرجاء إدخال البيانات التالية:</p>
@@ -647,6 +655,7 @@
                 </table>
                 <div id="tab2-error-message" class="error-message" style="display: none;"></div>
             </div>
+
             <div id="tab4" class="tab-content">
                 <h3>تقييم الأداء</h3>
                 <p>يلرجى إدراج النتائج التي تم احتسابها في الجزء الثاني من هذا النموذج:</p>
@@ -675,6 +684,7 @@
                     <input type="text" id="overallGrade" readonly>
                 </div>
             </div>
+
             <div id="underTrialTab" class="tab-content">
                 <h3>تقييم عناصر الأداء والسلوك الوظيفي</h3>
                 <p>الرجاء إدخال العلامات المتحققة لكل عنصر:</p>
@@ -809,16 +819,15 @@
             </div>
         </div>
     </div>
+
     <script>
         // دالة مساعدة لجعل قيمة الحقل فارغة إذا كانت 0 أو NaN أو للتقريب
-        function formatOutputValue(value, decimalPlaces = 2) { // إضافة معلم اختياري لعدد الخانات العشرية
-            if (isNaN(value) || value === null) { // لا تشمل 0 هنا لتجنب إخفاء الصفر في بعض الحقول
+        function formatOutputValue(value, decimalPlaces = 2) {
+            if (isNaN(value) || value === null) {
                 return '';
             }
-            // إذا كانت القيمة عددًا صحيحًا، اعرضها كعدد صحيح.
-            // وإلا، استخدم عدد الخانات العشرية المحدد.
             if (value % 1 === 0) {
-                return value.toFixed(0); // دائماً لا يوجد خانات عشرية إذا كان العدد صحيح
+                return value.toFixed(0);
             }
             return value.toFixed(decimalPlaces);
         }
@@ -835,9 +844,11 @@
                 weights.tab1Weight = 0.30; // 30% for Support Services
                 weights.tab3MaxScoreSum = 55; // 55% for Support Services
             }
-            // 'underTrial' type uses calculateUnderTrialTab() directly and does not rely on these weights for overall calculation
             return weights;
         }
+
+        // متغير لتتبع ما إذا كانت صفوف tab3 قد تم إنشاؤها بالفعل
+        let tab3RowsGenerated = false;
 
         function showEvaluationForms() {
             const evaluationType = document.getElementById('evaluationType').value;
@@ -862,10 +873,12 @@
                 } else {
                     // إظهار التبويبات القياسية (وظائف تخصصية وخدمات مساندة)
                     standardTabsContainer.style.display = 'flex'; // لإظهار الأزرار
-                    // تفعيل التبويب الأول افتراضياً بعد إعادة الترتيب
-                    openTab(null, 'tab3'); // الآن tab3 هو الأول
-                    // إعادة حساب جميع التبويبات القياسية لضمان تحديث التبويب الرابع
-                    generateTab3Rows(); // يجب أن يتم استدعاؤها أولاً لضمان وجود الصفوف قبل حساباتها
+
+                    if (!tab3RowsGenerated) {
+                        generateTab3Rows(); // إنشاء الصفوف الافتراضية
+                        tab3RowsGenerated = true;
+                    }
+                    openTab(null, 'tab3'); // تفعيل التبويب الأول افتراضياً
                     calculateAllTab3();
                     calculateAllTab1();
                     calculateAllTab2();
@@ -908,11 +921,10 @@
             } else if (tabName === 'tab2') {
                 calculateAllTab2();
             } else if (tabName === 'tab3') {
-                generateTab3Rows(); // التأكد من وجود الصفوف قبل الحساب
                 calculateAllTab3();
             } else if (tabName === 'tab4') {
-                updateTab4Summary(); // تحديث التبويب الرابع عند فتحه
-            } else if (tabName === 'underTrialTab') { // لتبويب الموظف تحت التجربة الجديد
+                updateTab4Summary();
+            } else if (tabName === 'underTrialTab') {
                 calculateUnderTrialTab();
             }
         }
@@ -921,7 +933,7 @@
         function calculateAllTab1() {
             const weights = getEvaluationWeights();
             let totalActualLevel = 0;
-            let totalDesiredCompetencySum = 0; // مجموع الكفاءة المطلوبة (من أزرار الراديو)
+            let totalDesiredCompetencySum = 0;
 
             const competencyRows = document.querySelectorAll('#tab1 .evaluation-table tbody tr[data-competency]');
             const errorMessageDiv = document.getElementById('tab1-error-message');
@@ -931,17 +943,14 @@
 
             competencyRows.forEach(row => {
                 const selectedScoreRadio = row.querySelector('input[type="radio"]:checked');
-                const achievedRatioInput = row.querySelector('.achieved-ratio'); // الآن هو حقل نصي للقراءة فقط
+                const achievedRatioInput = row.querySelector('.achieved-ratio');
                 const actualLevelInput = row.querySelector('.actual-level');
 
                 let desiredCompetencyScore = selectedScoreRadio ? parseFloat(selectedScoreRadio.value) : 0;
-                // جلب القيمة الثابتة من سمة البيانات
                 let achievedRatio = parseFloat(row.dataset.achievedRatio);
 
-                // إعادة تعيين ألوان الحدود لكل حقل
                 Array.from(row.querySelectorAll('input[type="radio"]')).forEach(radio => radio.closest('td').style.border = '');
 
-                // التحقق من أن زر راديو قد تم اختياره
                 if (!selectedScoreRadio) {
                     Array.from(row.querySelectorAll('input[type="radio"]')).forEach(radio => radio.closest('td').style.border = '1px solid red');
                     if (!hasError) {
@@ -949,10 +958,9 @@
                         errorMessageDiv.style.display = 'block';
                         hasError = true;
                     }
-                    desiredCompetencyScore = 0; // اعتبر القيمة صفر لتجنب أخطاء الحساب
+                    desiredCompetencyScore = 0;
                 }
 
-                // حساب المستوى الفعلي للكفاية: (النسبة المحققة / 100) * مستوى الكفاءة المطلوبة
                 let calculatedActualLevel = (achievedRatio / 100) * desiredCompetencyScore;
                 actualLevelInput.value = formatOutputValue(calculatedActualLevel);
 
@@ -964,9 +972,8 @@
             document.getElementById('totalActualLevel').value = formatOutputValue(totalActualLevel);
 
             let finalEvaluation = 0;
-            // الحساب كما في الكود الأصلي: (المستوى الفعلي / مجموع مستوى الكفاءة المطلوبة) * 0.20 (أو 0.30 لخدمات المساندة)
             if (totalDesiredCompetencySum > 0) {
-                finalEvaluation = (totalActualLevel / totalDesiredCompetencySum) * weights.tab1Weight * 100; // ضرب في 100 لتحويل الكسر إلى نسبة مئوية
+                finalEvaluation = (totalActualLevel / totalDesiredCompetencySum) * weights.tab1Weight * 100;
             }
             document.getElementById('finalEvaluation').value = formatOutputValue(finalEvaluation);
 
@@ -976,10 +983,12 @@
         // دالة حسابات التبويب الثاني (عناصر التميز الوظيفي)
         function calculateAllTab2() {
             let totalDeservedPercentage = 0;
+            let totalMaxScoreSumTab2 = 0; // لجمع قيم الأهمية النسبية في هذا التبويب
             const tab2Rows = document.querySelectorAll('#tab2 .evaluation-table tbody tr[data-item]');
             const errorMessageDiv = document.getElementById('tab2-error-message');
             errorMessageDiv.style.display = 'none';
-            let hasError = false;
+            let hasInputError = false; // لأخطاء الحقول الفردية
+            let hasTotalSumError = false; // لأخطاء المجموع الكلي
 
             tab2Rows.forEach(row => {
                 const maxScoreInput = row.querySelector('.max-score-input');
@@ -991,34 +1000,75 @@
                 maxScoreInput.style.borderColor = '';
                 deservedPercentageInput.style.borderColor = '';
 
-                if (isNaN(maxScore) || isNaN(deserved) || maxScore < 0 || deserved < 0) {
-                    if (!hasError) {
-                        errorMessageDiv.textContent = 'الرجاء إدخال أرقام صحيحة وغير سالبة في جميع الحقول.';
-                        errorMessageDiv.style.display = 'block';
-                        hasError = true;
-                    }
-                    if (isNaN(maxScore) || maxScore < 0) maxScoreInput.style.borderColor = 'red';
-                    if (isNaN(deserved) || deserved < 0) deservedPercentageInput.style.borderColor = 'red';
-                    return;
+                // التحقق من صلاحية مدخلات الأهمية النسبية
+                if (isNaN(maxScore) || maxScore < 0) {
+                    maxScoreInput.style.borderColor = 'red';
+                    hasInputError = true;
+                    maxScore = 0;
                 }
-                if (deserved > maxScore) {
+
+                // التحقق من صلاحية مدخلات النسبة المستحقة
+                if (isNaN(deserved) || deserved < 0) {
                     deservedPercentageInput.style.borderColor = 'red';
-                    if (!hasError) {
-                        errorMessageDiv.textContent = 'تحذير: قيمة "النسبة المستحقة" لبعض البنود تجاوزت "الأهمية النسبية".';
-                        errorMessageDiv.style.display = 'block';
-                        hasError = true;
-                    }
+                    hasInputError = true;
+                    deserved = 0;
                 }
+
+                // التحقق من أن النسبة المستحقة لا تتجاوز الأهمية النسبية لنفس الصف
+                if (deserved > maxScore && !isNaN(maxScore) && maxScore >= 0) {
+                    deservedPercentageInput.style.borderColor = 'red';
+                    if (!hasInputError) { // عرض رسالة واحدة فقط إذا لم يكن هناك خطأ إدخال آخر
+                        errorMessageDiv.textContent = 'خطأ: قيمة "النسبة المستحقة" لا يمكن أن تتجاوز "الأهمية النسبية" في نفس الصف.';
+                        errorMessageDiv.style.display = 'block';
+                        // لا نضبط hasInputError هنا لأنه ليس خطأ في طبيعة المدخل بل تجاوز للحد
+                    }
+                    deserved = maxScore; // ضبط القيمة لتجنب مشاكل في المجموع
+                    deservedPercentageInput.value = formatOutputValue(deserved); // تحديث الحقل بالقيمة الصحيحة
+                }
+
+                totalMaxScoreSumTab2 += maxScore; // جمع الأهمية النسبية
                 totalDeservedPercentage += deserved;
             });
 
+            // **التعديل الجديد: التحقق من مجموع الأهمية النسبية (العلامة القصوى) يجب أن لا يتجاوز 15**
+            if (totalMaxScoreSumTab2 > 15) {
+                tab2Rows.forEach(row => {
+                    row.querySelector('.max-score-input').style.borderColor = 'red';
+                });
+                errorMessageDiv.textContent = 'خطأ: مجموع "الأهمية النسبية" يجب أن لا يتجاوز 15.';
+                errorMessageDiv.style.display = 'block';
+                hasTotalSumError = true;
+            } else {
+                 // إذا كان المجموع صحيحاً، أعد ضبط ألوان الحدود للحقول
+                tab2Rows.forEach(row => {
+                    if (row.querySelector('.max-score-input').style.borderColor === 'red') {
+                        row.querySelector('.max-score-input').style.borderColor = '';
+                    }
+                });
+            }
+
+
+            // عرض رسالة خطأ واحدة فقط، إذا كان هناك خطأ في الإدخال الفردي أو في المجموع الكلي
+            if (hasInputError || hasTotalSumError) {
+                // إذا كان هناك خطأ في المجموع الكلي، فإنه الأولوية في الرسالة
+                if (hasTotalSumError) {
+                    errorMessageDiv.textContent = 'خطأ: مجموع "الأهمية النسبية" يجب أن لا يتجاوز 15.';
+                } else if (hasInputError) {
+                    errorMessageDiv.textContent = 'الرجاء إدخال أرقام صحيحة وغير سالبة في جميع الحقول الملونة بالأحمر.';
+                }
+                errorMessageDiv.style.display = 'block';
+            } else {
+                errorMessageDiv.style.display = 'none';
+            }
+
             document.getElementById('totalDeservedPercentage').value = formatOutputValue(totalDeservedPercentage);
 
-            if (!hasError && totalDeservedPercentage > 15) {
+            // التحقق النهائي لمجموع النسبة المستحقة (لا يتجاوز 15%)
+            if (!hasInputError && !hasTotalSumError && totalDeservedPercentage > 15) {
                 errorMessageDiv.textContent = 'خطأ: مجموع النسبة المستحقة تجاوز 15%. الرجاء التعديل.';
                 errorMessageDiv.style.display = 'block';
                 document.getElementById('totalDeservedPercentage').style.borderColor = 'red';
-            } else if (!hasError) {
+            } else if (!hasInputError && !hasTotalSumError) { // فقط إذا لم يكن هناك أخطاء أخرى
                 errorMessageDiv.style.display = 'none';
                 document.getElementById('totalDeservedPercentage').style.borderColor = '';
             }
@@ -1030,8 +1080,19 @@
             const numResultsInput = document.getElementById('numResults');
             let numResults = parseInt(numResultsInput.value);
             const tbody = document.getElementById('tab3-tbody');
+
+            // حفظ القيم الحالية قبل مسح الصفوف
+            const currentValues = [];
+            document.querySelectorAll('#tab3-tbody tr[data-item]').forEach(row => {
+                const index = parseInt(row.querySelector('td:first-child').textContent);
+                const resultText = row.querySelector('td:nth-child(2) input').value;
+                const maxScore = row.querySelector('.max-score-tab3').value;
+                const achievedPercent = row.querySelector('.achieved-percent-tab3').value;
+                currentValues[index - 1] = { resultText, maxScore, achievedPercent };
+            });
+
             tbody.innerHTML = ''; // مسح الصفوف الموجودة
-            // تحديث المدى ليكون (1-10)
+
             if (isNaN(numResults) || numResults < 1) {
                 numResults = 1;
                 numResultsInput.value = 1;
@@ -1043,11 +1104,12 @@
             for (let i = 1; i <= numResults; i++) {
                 const row = document.createElement('tr');
                 row.setAttribute('data-item', `result${i}`);
+                const savedValues = currentValues[i - 1] || { resultText: '', maxScore: '', achievedPercent: '' };
                 row.innerHTML = `
                     <td>${i}</td>
-                    <td style="text-align: right;"><input type="text" value="" placeholder="النتائج المطلوب تحقيقها" style="width: 100%; text-align: right;"></td>
-                    <td><input type="number" class="max-score-tab3" oninput="calculateAllTab3()" min="0"></td>
-                    <td class="achieved-percent-cell"><input type="number" class="achieved-percent-tab3" oninput="calculateAllTab3()" min="0" max="100"></td>
+                    <td style="text-align: right;"><input type="text" value="${savedValues.resultText}" placeholder="النتائج المطلوب تحقيقها" style="width: 100%; text-align: right;"></td>
+                    <td><input type="number" class="max-score-tab3" value="${savedValues.maxScore}" oninput="calculateAllTab3()" min="0"></td>
+                    <td class="achieved-percent-cell"><input type="number" class="achieved-percent-tab3" value="${savedValues.achievedPercent}" oninput="calculateAllTab3()" min="0" max="100"></td>
                     <td><input type="text" class="deserved-mark-tab3" readonly></td>
                 `;
                 tbody.appendChild(row);
@@ -1066,7 +1128,7 @@
                 input.addEventListener('input', calculateAllTab3);
                 input.addEventListener('change', calculateAllTab3);
             });
-            calculateAllTab3(); // حساب الصفوف الجديدة فور إنشائها
+            calculateAllTab3(); // حساب الصفوف الجديدة فور إنشائها أو تحديثها
         }
 
         // دالة حسابات التبويب الثالث
@@ -1099,7 +1161,7 @@
                 if (isNaN(maxScore) || maxScore < 0 || maxScore > 100) {
                     maxScoreInput.style.borderColor = 'red';
                     hasInputError = true;
-                    maxScore = 0; // لضمان عدم وجود NaN في الحسابات التالية
+                    maxScore = 0;
                 } else {
                     totalMaxScoreSum += maxScore;
                 }
@@ -1107,7 +1169,7 @@
                 if (isNaN(achievedPercent) || achievedPercent < 0 || achievedPercent > 100) {
                     achievedPercentInput.style.borderColor = 'red';
                     hasInputError = true;
-                    achievedPercent = 0; // لضمان عدم وجود NaN في الحسابات التالية
+                    achievedPercent = 0;
                 }
 
                 let deservedMark = (maxScore / 100) * achievedPercent;
@@ -1130,7 +1192,6 @@
                 document.getElementById('totalDeservedMarkTab3').style.borderColor = 'red';
                 hasTotalError = true;
             } else if (totalMaxScoreSum < weights.tab3MaxScoreSum && !hasInputError) {
-                // لا يوجد تحذير هنا إذا كان المجموع أقل من 65% أو 55% ولا توجد أخطاء فردية
                 errorMessageDiv.style.display = 'none';
             } else if (!hasInputError && !hasTotalError) {
                 errorMessageDiv.style.display = 'none';
@@ -1141,10 +1202,8 @@
 
         // دالة تحديث التبويب الرابع (تقييم الأداء) للوظائف التخصصية والمساندة
         function updateTab4Summary() {
-            // يتم استدعاء هذه الدالة فقط لأنواع التقييم التي تستخدم التبويبات القياسية
             const evaluationType = document.getElementById('evaluationType').value;
             if (evaluationType === 'underTrial') {
-                // لا تفعل شيئا إذا كان نوع التقييم هو "تحت التجربة"
                 return;
             }
 
@@ -1179,40 +1238,32 @@
             let totalAchievedScore = 0;
             const underTrialRows = document.querySelectorAll('#underTrialTab .evaluation-table tbody tr[data-item]');
             const errorMessageDiv = document.getElementById('underTrial-error-message');
-            errorMessageDiv.style.display = 'none'; // إخفاء رسالة الخطأ في بداية كل عملية حساب
-
-            let hasError = false; // متغير لتتبع وجود أخطاء في الإدخال
+            errorMessageDiv.style.display = 'none';
+            let hasError = false;
 
             underTrialRows.forEach(row => {
                 const achievedMarkInput = row.querySelector('.achieved-mark-underTrial');
-                const maxScoreCell = row.cells[2]; // العلامة القصوى هي الخلية الثالثة (index 2)
-                const maxScore = parseInt(maxScoreCell.textContent); // قراءة القيمة الثابتة من الخلية
-
+                const maxScoreCell = row.cells[2];
+                const maxScore = parseInt(maxScoreCell.textContent);
                 let achievedMark = parseFloat(achievedMarkInput.value);
 
-                achievedMarkInput.style.borderColor = ''; // إعادة تعيين لون الحدود لكل حقل
+                achievedMarkInput.style.borderColor = '';
 
-                // التحقق من صحة القيمة المدخلة:
-                // 1. ليست NaN (ليست رقمًا)
-                // 2. ليست سالبة
-                // 3. لا تتجاوز العلامة القصوى المحددة للبند
                 if (isNaN(achievedMark) || achievedMark < 0 || achievedMark > maxScore) {
-                    achievedMarkInput.style.borderColor = 'red'; // تمييز الحقل الذي به خطأ
-                    if (!hasError) { // عرض رسالة الخطأ مرة واحدة فقط
+                    achievedMarkInput.style.borderColor = 'red';
+                    if (!hasError) {
                         errorMessageDiv.textContent = 'الرجاء إدخال أرقام صحيحة وغير سالبة، ولا تتجاوز العلامة القصوى لكل بند.';
                         errorMessageDiv.style.display = 'block';
                         hasError = true;
                     }
-                    totalAchievedScore += 0; // إذا كانت القيمة غير صالحة، لا تضفها للمجموع (وهذا كان سبب الخطأ السابق)
+                    totalAchievedScore += 0;
                 } else {
-                    totalAchievedScore += achievedMark; // أضف القيمة الصالحة للمجموع
+                    totalAchievedScore += achievedMark;
                 }
             });
 
-            // هنا يتم تطبيق التنسيق الجديد: تقريب إلى أقرب عدد صحيح
-            document.getElementById('totalAchievedUnderTrial').value = formatOutputValue(totalAchievedScore, 0); // استخدم 0 خانات عشرية
+            document.getElementById('totalAchievedUnderTrial').value = formatOutputValue(totalAchievedScore, 0);
 
-            // تحديد التقدير العام بناءً على المجموع الكلي
             let overallGrade = '';
             if (totalAchievedScore >= 90) {
                 overallGrade = 'ممتاز';
@@ -1228,17 +1279,15 @@
             document.getElementById('overallGradeUnderTrial').value = overallGrade;
 
             if (!hasError) {
-                errorMessageDiv.style.display = 'none'; // إخفاء رسالة الخطأ إذا لم تكن هناك أخطاء
+                errorMessageDiv.style.display = 'none';
             }
         }
 
-
         // تهيئة عند تحميل الصفحة
         document.addEventListener('DOMContentLoaded', () => {
-            // استدعاء showEvaluationForms مرة واحدة لتهيئة العرض الافتراضي
-            showEvaluationForms();
+            showEvaluationForms(); // استدعاء showEvaluationForms لتهيئة العرض الافتراضي
 
-            // إضافة مستمعين للأحداث لكل حقول الراديو في التبويب الأول (فقط الراديو يؤثر الآن)
+            // إضافة مستمعين للأحداث لكل حقول الراديو في التبويب الأول
             document.querySelectorAll('#tab1 .evaluation-table input[type="radio"]').forEach(radio => {
                 radio.addEventListener('change', calculateAllTab1);
             });
@@ -1257,9 +1306,6 @@
                 input.addEventListener('input', calculateUnderTrialTab);
                 input.addEventListener('change', calculateUnderTrialTab);
             });
-
-            // استدعاء generateTab3Rows لأول مرة عند تحميل الصفحة لإنشاء الصفوف الافتراضية
-            generateTab3Rows();
         });
     </script>
 </body>
